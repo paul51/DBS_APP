@@ -10,7 +10,7 @@ class database{
             password: ''
         );
     }
-    function signupUser($firstname,$lastname,$username,$password){
+    function signupUser($firstname,$lastname,$username, $email, $password){
         $con = $this->opencon();
         try{
             $con-> beginTransaction();
@@ -18,8 +18,9 @@ class database{
             admin_FN,
             admin_LN,
             admin_username,
-            admin_password)VALUES(?,?,?,?)");
-            $stmt->execute([$firstname,$lastname,$username,$password]);
+            admin_email,
+            admin_password)VALUES(?,?,?,?,?)");
+            $stmt->execute([$firstname,$lastname,$username, $email, $password]);
             $userID = $con->lastInsertId();
             $con-> commit();
             return $userID;
@@ -37,7 +38,28 @@ class database{
  
         return $count > 0;
     }
+    function isEmailExists($email){
+        $con = $this->opencon();
+        $stmt = $con->prepare("SELECT * FROM Admin WHERE admin_email = ?");
+        $stmt->execute([$email]);
+        $count = $stmt->fetchColumn();
+ 
+        return $count > 0;
+    }
+    function loginUser($username, $password) {
+    $con = $this->opencon();
+    $stmt = $con->prepare("SELECT * FROM Admin WHERE admin_username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user && password_verify($password, $user['admin_password'])) {
+        return $user;
+ 
+    }else{
+        return false;
+       
+    }
+}
    
 }
- 
+   
  
