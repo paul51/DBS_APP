@@ -1,20 +1,30 @@
+<?php
+session_start();
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: login.php");
+    exit();
+}
+ 
+ 
+?>
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Student & Course CRUD (PHP PDO)</title>
   <link rel="stylesheet" href="./bootstrap-5.3.3-dist/css/bootstrap.css">
+  <link rel="stylesheet" href="package/dist/sweetalert2.css">
 </head>
 <body class="bg-light">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Hello Admin</a>
+    <a class="navbar-brand" href="#">Hello, <?php echo $_SESSION['admin_FN'];?></a>
     <div class="d-flex ms-auto">
       <a href="logout.php" class="btn btn-outline-light">Logout</a>
     </div>
   </div>
 </nav>
-
   <div class="container py-5">
     <h2 class="mb-4 text-center">Student Records</h2>
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add New Student</button>
@@ -41,7 +51,7 @@
         </tr>
       </tbody>
     </table>
-
+ 
     <h2 class="mb-4 mt-5">Courses</h2>
     <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addCourseModal">Add Course</button>
     <table class="table table-bordered table-hover bg-white">
@@ -63,7 +73,7 @@
         </tr>
       </tbody>
     </table>
-
+ 
     <h2 class="mb-4 mt-5">Enrollments</h2>
     <button class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#enrollStudentModal">Enroll Student</button>
     <table class="table table-bordered table-hover bg-white">
@@ -88,7 +98,7 @@
       </tbody>
     </table>
   </div>
-
+ 
   <!-- Add Student Modal -->
   <div class="modal fade" id="addStudentModal" tabindex="-1">
     <div class="modal-dialog">
@@ -109,7 +119,7 @@
       </form>
     </div>
   </div>
-
+ 
   <!-- Add Course Modal -->
   <div class="modal fade" id="addCourseModal" tabindex="-1">
     <div class="modal-dialog">
@@ -127,7 +137,7 @@
       </form>
     </div>
   </div>
-
+ 
   <!-- Enroll Student Modal -->
   <div class="modal fade" id="enrollStudentModal" tabindex="-1">
     <div class="modal-dialog">
@@ -139,7 +149,7 @@
         <div class="modal-body">
           <input type="text" name="student_id" class="form-control mb-2" placeholder="Student ID" required>
           <input type="text" disabled name="student_name" class="form-control mb-2" placeholder="Student Name" required>
-          
+         
           <select name="course_id" class="form-control" required>
             <option value="">Select Course</option>
             <option value="1">Computer Science</option>
@@ -147,7 +157,7 @@
             <option value="3">Software Engineering</option>
             <option value="4">Data Science</option>
           </select>
-          
+         
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-info">Enroll</button>
@@ -155,7 +165,9 @@
       </form>
     </div>
   </div>
-
+ 
   <script src="./bootstrap-5.3.3-dist/js/bootstrap.js"></script>
 </body>
 </html>
+ 
+ 
